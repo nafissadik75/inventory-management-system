@@ -1,0 +1,5 @@
+#!/bin/bash
+mkdir -p lib
+curl -L -o lib/junit-platform-console-standalone.jar \
+  https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.2/junit-platform-console-standalone-1.10.2.jar
+echo "JUnit downloaded successfully."
