@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Inventory {
-    ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<>();
     private int id;
     private String name;
 
@@ -18,6 +18,7 @@ public class Inventory {
 
     public void addProduct(Product p){
         //code to add product in the inventory here
+        
 
     }
 
