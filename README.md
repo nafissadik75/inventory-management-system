@@ -26,7 +26,7 @@ This is a command-line Java application that simulates a shop and inventory mana
 
 > Features are being built incrementally over 10 weeks. Checked items are complete.
 
-- [ ] Core data model (Product, Inventory, Shop)
+- [ ] Core data model (Product, Inventory)
 - [ ] Add / remove products
 - [ ] Update stock levels
 - [ ] Search and filter inventory
@@ -115,8 +115,8 @@ Configuration lives in `.github/workflows/`.
 
 | Milestone | Description                        | Status      |
 |-----------|------------------------------------|-------------|
-| M0        | Repo setup, structure, CI config   | 🔄 In Progress |
-| M1        | Core data model                    | ⏳ Pending  |
+| M0        | Repo setup, structure, CI config   | Done        |
+| M1        | Core data model                    | Ongoing     |
 | M2        | Basic CRUD operations              | ⏳ Pending  |
 | M3        | Terminal UI & navigation           | ⏳ Pending  |
 | M4        | Persistence & data storage         | ⏳ Pending  |

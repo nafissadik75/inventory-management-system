@@ -1,5 +1,40 @@
+import java.util.ArrayList;
+import model.Inventory;
+import model.Product;
+import menu.MainMenu;
+import model.OrderHistory;
+
 public class Main {
+
+    public static ArrayList<Inventory> inventories = new ArrayList<>();
+    public static ArrayList<Product> products = new ArrayList<>();
+
     public static void main(String[] args){
-        System.out.println("hello world!");
+        
+        MainMenu.startupMessages();
+
+        int usr_input = 1;
+
+        // Main Loop
+        while (usr_input != 0) {
+            usr_input = MainMenu.mainMenuOptions();
+            switch (usr_input) {
+                case 0:
+                    break;
+                case 1:
+                    products.add(MainMenu.addProductMenu());
+                case 5:
+                    // show order history
+                    // date, qty, name , price, 
+                case 4:
+                    System.out.println(products);
+                    for (int i = 0; i < products.size(); i++) {
+                        System.out.println(products.get(i));
+                    }
+            }
+        }
+        
+        System.out.println("Closing application...");
     }
+       
 }
