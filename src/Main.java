@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import model.Inventory;
 import model.Product;
 import menu.MainMenu;
+import model.OrderHistory;
 
 public class Main {
 
@@ -22,6 +23,9 @@ public class Main {
                     break;
                 case 1:
                     products.add(MainMenu.addProductMenu());
+                case 5:
+                    // show order history
+                    // date, qty, name , price, 
                 case 4:
                     System.out.println(products);
                     for (int i = 0; i < products.size(); i++) {
