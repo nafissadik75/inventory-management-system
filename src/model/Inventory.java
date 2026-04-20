@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Inventory {
-    ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<>();
     private int id;
     private String name;
 
