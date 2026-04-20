@@ -26,6 +26,11 @@ public class Main {
                 case 5:
                     // show order history
                     // date, qty, name , price, 
+                case 4:
+                    System.out.println(products);
+                    for (int i = 0; i < products.size(); i++) {
+                        System.out.println(products.get(i));
+                    }
             }
         }
         

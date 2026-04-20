@@ -17,11 +17,18 @@ public class Inventory {
     public ArrayList<Product> getProducts() {return products;}
 
     public void addProduct(Product p){
-        //code to add product in the inventory here
-        
+        products.add(p);                //code to add product in the inventory here
 
     }
-
+    public boolean removeProduct(int productId) {
+        for (int i = 0; i < products.size(); i++) {
+            if(products.get(i).getId() == productId) {
+                products.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
     public static void saveInventory(String file_path){
 
     }
