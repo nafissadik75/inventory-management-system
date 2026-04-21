@@ -23,8 +23,8 @@ public class MainMenu {
         System.out.println("[1] Add a product");
         System.out.println("[2] Save");
         System.out.println("[3] Load");
-        System.out.println("[5] Order History");
         System.out.println("[4] List all products");
+        System.out.println("[5] Order History");
         System.out.println("[0] Exit");
         System.out.print("Please Input a number: ");
 
