@@ -3,7 +3,7 @@ package model;
 import java.util.Scanner;
 
 public class Nafis {
-
+    
     // FIRST FEATURE
     // Method to take input from user to add a product
     public static Product addProductMenu(){
@@ -31,9 +31,8 @@ public class Nafis {
         System.out.println("============================================");
         System.out.println("Product Created Successfully!");
 
-        sc_obj.close();
         return new_p;
     }
-
     
+
 }

@@ -3,7 +3,7 @@
 lib/
 .classpath
 out/
-
+.vscode
 # Log file
 *.log
 

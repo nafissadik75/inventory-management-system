@@ -1,10 +1,10 @@
 package tests.model;
 import model.Product;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
 public class ProductTest {
 
@@ -13,25 +13,25 @@ public class ProductTest {
     // -------------------------
 
     @Test
-    void testProductIdIsSetCorrectly() {
+    public void testProductIdIsSetCorrectly() {
         Product p = new Product(1, "Apple", 0.99, 50);
         assertEquals(1, p.getId());
     }
 
     @Test
-    void testProductNameIsSetCorrectly() {
+    public void testProductNameIsSetCorrectly() {
         Product p = new Product(1, "Apple", 0.99, 50);
         assertEquals("Apple", p.getName());
     }
 
     @Test
-    void testProductPriceIsSetCorrectly() {
+    public void testProductPriceIsSetCorrectly() {
         Product p = new Product(1, "Apple", 0.99, 50);
-        assertEquals(0.99, p.getPrice());
+        assertEquals(0.99, p.getPrice(), 1e-6);
     }
 
     @Test
-    void testProductQuantityIsSetCorrectly() {
+    public void testProductQuantityIsSetCorrectly() {
         Product p = new Product(1, "Apple", 0.99, 50);
         assertEquals(50, p.getQuantity());
     }
@@ -41,31 +41,31 @@ public class ProductTest {
     // -------------------------
 
     @Test
-    void testSetPriceUpdatesCorrectly() {
+    public void testSetPriceUpdatesCorrectly() {
         Product p = new Product(1, "Apple", 0.99, 50);
         p.setPrice(1.49);
-        assertEquals(1.49, p.getPrice());
+        assertEquals(1.49, p.getPrice(), 1e-6);
     }
 
     @Test
-    void testSetQuantityUpdatesCorrectly() {
+    public void testSetQuantityUpdatesCorrectly() {
         Product p = new Product(1, "Apple", 0.99, 50);
         p.setQuantity(30);
         assertEquals(30, p.getQuantity());
     }
 
     @Test
-    void testSetQuantityToZero() {
+    public void testSetQuantityToZero() {
         Product p = new Product(1, "Apple", 0.99, 50);
         p.setQuantity(0);
         assertEquals(0, p.getQuantity());
     }
 
     @Test
-    void testSetPriceToZero() {
+    public void testSetPriceToZero() {
         Product p = new Product(1, "Apple", 0.99, 50);
         p.setPrice(0.0);
-        assertEquals(0.0, p.getPrice());
+        assertEquals(0.0, p.getPrice(), 1e-6);
     }
 
     // -------------------------
@@ -73,25 +73,25 @@ public class ProductTest {
     // -------------------------
 
     @Test
-    void testToStringContainsId() {
+    public void testToStringContainsId() {
         Product p = new Product(1, "Apple", 0.99, 50);
         assertTrue(p.toString().contains("1"));
     }
 
     @Test
-    void testToStringContainsName() {
+    public void testToStringContainsName() {
         Product p = new Product(1, "Apple", 0.99, 50);
         assertTrue(p.toString().contains("Apple"));
     }
 
     @Test
-    void testToStringContainsPrice() {
+    public void testToStringContainsPrice() {
         Product p = new Product(1, "Apple", 0.99, 50);
         assertTrue(p.toString().contains("0.99"));
     }
 
     @Test
-    void testToStringContainsQuantity() {
+    public void testToStringContainsQuantity() {
         Product p = new Product(1, "Apple", 0.99, 50);
         assertTrue(p.toString().contains("50"));
     }

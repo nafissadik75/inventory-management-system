@@ -29,10 +29,5 @@ public class Inventory {
         }
         return false;
     }
-    public static void saveInventory(String file_path){
-
-    }
-
-    // public static Inventory loadInventory(String file_path){}
 
 }
