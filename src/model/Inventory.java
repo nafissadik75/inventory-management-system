@@ -20,19 +20,10 @@ public class Inventory {
         products.add(p);                //code to add product in the inventory here
 
     }
-    public boolean removeProduct(int productId) {
-        for (int i = 0; i < products.size(); i++) {
-            if(products.get(i).getId() == productId) {
-                products.remove(i);
-                return true;
-            }
-        }
-        return false;
-    }
+
     public static void saveInventory(String file_path){
-
+        
     }
-
     // public static Inventory loadInventory(String file_path){}
 
 }
