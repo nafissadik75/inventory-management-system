@@ -1,23 +1,31 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Rand {
-    private ArrayList<Product> products = new ArrayList<>();
-    private int id;
-    private String name;
+    private List<Product> products = new ArrayList<>();
 
-    public Rand(int id, String name){
-        this.name = name;
-        this.id = id;
+    public void addProduct(Product product) {
+        products.add(product);
     }
 
-    public int getId() {return id;}
-    public String getName() {return name;}
-    public ArrayList<Product> getProducts() {return products;}
+    // --- List all products ---
+    public void listProducts() {
 
-    public void addProduct(Product p){
-        products.add(p);                //code to add product in the inventory here
+        if (products.isEmpty()) {
+            System.out.println("No products available.");
+            return;
+        }
 
+        System.out.println("===== PRODUCT LIST =====");
+
+        for (Product p : products) {
+            System.out.println(
+                    " |     Name: " + p.getName() +
+                    " | Quantity: " + p.getQuantity() +
+                    " |    Price: " + p.getPrice() + "$"
+            );
+        }
     }
 }

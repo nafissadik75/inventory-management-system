@@ -10,6 +10,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RandTest {
+
+
+    
+    // Listallproducts-feature TestSuite
     @Test
     void TC1_singleProduct() {
         Inventory inv = new Inventory();
