@@ -109,7 +109,7 @@ public class GhaithTest {
 
 
 
-    
+
     // Searchbyname feature TestSuite
         @Test
     void testSearchFindsSingleMatch() {
@@ -201,5 +201,52 @@ public class GhaithTest {
         List<Product> results = inv.searchByName("apple");
 
         assertTrue(results.isEmpty());
+    }
+
+
+
+
+
+
+    // Removefromcart feature TestSuite
+    @Test
+    void testRemoveFromCartSuccess() {
+        Cart cart = new Cart();
+        cart.addProduct(new Product(1, "Apple", 1.0, 1));
+
+        assertTrue(cart.removeFromCart(1));
+    }
+
+    @Test
+    void testRemoveFromCartNotFound() {
+        Cart cart = new Cart();
+
+        assertFalse(cart.removeFromCart(1));
+    }
+
+    @Test
+    void testRemoveFromCartReducesSize() {
+        Cart cart = new Cart();
+        cart.addProduct(new Product(1, "Apple", 1.0, 1));
+
+        cart.removeFromCart(1);
+
+        assertEquals(0, cart.size());
+    }
+
+    @Test
+    void testRemoveFromCartTwice() {    
+        Cart cart = new Cart();
+        cart.addProduct(new Product(1, "Apple", 1.0, 1));
+
+        assertTrue(cart.removeFromCart(1));
+        assertFalse(cart.removeFromCart(1));
+    }
+
+    @Test
+    void testRemoveFromCartInvalidId() {
+        Cart cart = new Cart();
+
+        assertThrows(IllegalArgumentException.class, () -> cart.removeFromCart(0));
     }
 }
