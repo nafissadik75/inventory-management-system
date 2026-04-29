@@ -4,11 +4,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rand {
+    private String name;
+    private int quantity;
+    private int lowStockThreshold;
+
+    public void Product(String name, int quantity, int lowStockThreshold) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Initial stock cannot be negative");
+        }
+        this.name = name;
+        this.quantity = quantity;
+        this.lowStockThreshold = lowStockThreshold;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public int getLowStockThreshold() {
+        return lowStockThreshold;
+    }
     private List<Product> products = new ArrayList<>();
 
     public void addProduct(Product product) {
         products.add(product);
     }
+
+
 
     // --- List all products ---
     public void listProducts() {
@@ -26,6 +52,24 @@ public class Rand {
                     " | Quantity: " + p.getQuantity() +
                     " |    Price: " + p.getPrice() + "$"
             );
+        }
+    }
+
+    //  --- Update Product Quantity ---
+    public void updateQuantity(int change) {
+        int newQuantity = this.quantity + change;
+
+        if (newQuantity < 0) {
+            throw new IllegalArgumentException("Stock cannot be negative");
+        }
+
+        this.quantity = newQuantity;
+        showLowStockAlerts();
+    }
+
+            public void showLowStockAlerts() {
+            if (quantity <= lowStockThreshold) {
+            System.out.println("LOW STOCK: " + name + " | Remaining: " + quantity);
         }
     }
 }
