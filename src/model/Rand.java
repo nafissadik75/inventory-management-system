@@ -64,12 +64,7 @@ public class Rand {
         }
 
         this.quantity = newQuantity;
-        showLowStockAlerts();
     }
+    
 
-            public void showLowStockAlerts() {
-            if (quantity <= lowStockThreshold) {
-            System.out.println("LOW STOCK: " + name + " | Remaining: " + quantity);
-        }
-    }
 }
