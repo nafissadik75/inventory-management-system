@@ -1,0 +1,127 @@
+package model;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class DiscountCodeTest {
+
+    private DiscountCode discount;
+
+    @BeforeEach
+    void setUp() {
+        discount = new DiscountCode();
+    }
+
+    // ─────────────────────────────────────────
+    // Input-Output Test Cases
+    // ─────────────────────────────────────────
+
+    @Test
+    void TC1_addValidCode_codeIsValid() {
+        discount.addDiscountCode("SAVE10", 10.0);
+        assertTrue(discount.isValidCode("SAVE10"));
+    }
+
+    @Test
+    void TC2_addMultipleCodes_totalCodesIsCorrect() {
+        discount.addDiscountCode("SAVE10", 10.0);
+        discount.addDiscountCode("SAVE20", 20.0);
+        assertEquals(2, discount.getTotalCodes());
+    }
+
+    @Test
+    void TC3_removeCode_codeNoLongerValid() {
+        discount.addDiscountCode("SAVE10", 10.0);
+        discount.removeDiscountCode("SAVE10");
+        assertFalse(discount.isValidCode("SAVE10"));
+    }
+
+    @Test
+    void TC4_applyDiscount_returnsCorrectPrice() {
+        discount.addDiscountCode("SAVE10", 10.0);
+        double result = discount.applyDiscount("SAVE10", 100.0);
+        assertEquals(90.0, result, 0.001);
+    }
+
+    @Test
+    void TC5_applyFullDiscount_returnsPriceOfZero() {
+        discount.addDiscountCode("FREE", 100.0);
+        double result = discount.applyDiscount("FREE", 50.0);
+        assertEquals(0.0, result, 0.001);
+    }
+
+    // ─────────────────────────────────────────
+    // Edge Cases
+    // ─────────────────────────────────────────
+
+    @Test
+    void EC1_noCodesAdded_totalCodesIsZero() {
+        assertEquals(0, discount.getTotalCodes());
+    }
+
+    @Test
+    void EC2_unknownCode_isValidReturnsFalse() {
+        assertFalse(discount.isValidCode("UNKNOWN"));
+    }
+
+    @Test
+    void EC3_applySmallDiscount_returnsCorrectPrice() {
+        discount.addDiscountCode("SAVE1", 1.0);
+        double result = discount.applyDiscount("SAVE1", 100.0);
+        assertEquals(99.0, result, 0.001);
+    }
+
+    @Test
+    void EC4_getDiscountPercent_returnsCorrectValue() {
+        discount.addDiscountCode("SAVE25", 25.0);
+        assertEquals(25.0, discount.getDiscountPercent("SAVE25"), 0.001);
+    }
+
+    @Test
+    void EC5_applyDiscountOnZeroPrice_returnsZero() {
+        discount.addDiscountCode("SAVE10", 10.0);
+        double result = discount.applyDiscount("SAVE10", 0.0);
+        assertEquals(0.0, result, 0.001);
+    }
+
+    // ─────────────────────────────────────────
+    // Error Handling Tests
+    // ─────────────────────────────────────────
+
+    @Test
+    void EH1_addCodeWithNullName_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            discount.addDiscountCode(null, 10.0);
+        });
+    }
+
+    @Test
+    void EH2_addCodeWithEmptyName_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            discount.addDiscountCode("", 10.0);
+        });
+    }
+
+    @Test
+    void EH3_addCodeWithZeroDiscount_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            discount.addDiscountCode("ZERO", 0.0);
+        });
+    }
+
+    @Test
+    void EH4_addCodeWithOver100Discount_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            discount.addDiscountCode("OVER", 101.0);
+        });
+    }
+
+    @Test
+    void EH5_applyDiscountWithNegativePrice_throwsIllegalArgumentException() {
+        discount.addDiscountCode("SAVE10", 10.0);
+        assertThrows(IllegalArgumentException.class, () -> {
+            discount.applyDiscount("SAVE10", -50.0);
+        });
+    }
+}
