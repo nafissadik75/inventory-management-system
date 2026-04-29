@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import model.Inventory;
 import model.Product;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -167,100 +169,230 @@ public class RandTest {
 
     // UpdateProductQuantity - TestSuite
 
-@Test
-void TC1_increaseQuantity() {
-    Product p = new Product(1, "A", 1.0, 10);
+    @Test
+    void TC1_increaseQuantity() {
+        Product p = new Product(1, "A", 1.0, 10);
 
-    p.updateQuantity(5);
+        p.updateQuantity(5);
 
-    assertEquals(15, p.getQuantity());
-}
+        assertEquals(15, p.getQuantity());
+    }
 
-@Test
-void TC2_decreaseQuantity() {
-    Product p = new Product(1, "A", 1.0, 10);
+    @Test
+    void TC2_decreaseQuantity() {
+        Product p = new Product(1, "A", 1.0, 10);
 
-    p.updateQuantity(-3);
+        p.updateQuantity(-3);
 
-    assertEquals(7, p.getQuantity());
-}
+        assertEquals(7, p.getQuantity());
+    }
 
-@Test
-void TC3_noChange() {
-    Product p = new Product(1, "A", 1.0, 10);
+    @Test
+    void TC3_noChange() {
+        Product p = new Product(1, "A", 1.0, 10);
 
-    p.updateQuantity(0);
+        p.updateQuantity(0);
 
-    assertEquals(10, p.getQuantity());
-}
+        assertEquals(10, p.getQuantity());
+    }
 
-@Test
-void TC4_multipleUpdates() {
-    Product p = new Product(1, "A", 1.0, 10);
+    @Test
+    void TC4_multipleUpdates() {
+        Product p = new Product(1, "A", 1.0, 10);
 
-    p.updateQuantity(5);
-    p.updateQuantity(-2);
+        p.updateQuantity(5);
+        p.updateQuantity(-2);
 
-    assertEquals(13, p.getQuantity());
-}
+        assertEquals(13, p.getQuantity());
+    }
 
-@Test
-void TC5_exactZero() {
+    @Test
+    void TC5_exactZero() {
+        Product p = new Product(1, "A", 1.0, 5);
+
+        p.updateQuantity(-5);
+
+        assertEquals(0, p.getQuantity());
+    }
+
+    // Edge Cases
+
+    @Test
+    void EC1_largeIncrease() {
+        Product p = new Product(1, "A", 1.0, 10);
+
+        p.updateQuantity(1_000_000);
+
+        assertEquals(1_000_010, p.getQuantity());
+    }
+
+    @Test
+    void EC2_largeDecreaseToZero() {
+        Product p = new Product(1, "A", 1.0, 1000);
+
+        p.updateQuantity(-1000);
+
+        assertEquals(0, p.getQuantity());
+    }
+
+    @Test
+    void EC3_sequentialOperations() {
+        Product p = new Product(1, "A", 1.0, 10);
+
+        for (int i = 0; i < 100; i++) {
+            p.updateQuantity(1);
+        }
+
+        assertEquals(110, p.getQuantity());
+    }
+
+    // Error Handling
+
+    @Test
+    void EH1_negativeStockNotAllowed() {
     Product p = new Product(1, "A", 1.0, 5);
 
-    p.updateQuantity(-5);
+        assertThrows(IllegalArgumentException.class, () -> {
+          p.updateQuantity(-10);
+        });
+    }
 
-    assertEquals(0, p.getQuantity());
+    @Test
+    void EH2_boundaryNegative() {
+        Product p = new Product(1, "A", 1.0, 5);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            p.updateQuantity(-6);
+        });
+    }
+
+
+// ShowLowStockAlerts - TestSuite
+
+@Test
+void TC1_triggerAlertAtThreshold() {
+    Product p = new Product(1, "A", 1.0, 5);
+
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(output));
+
+    p.updateQuantity(0); // quantity = 5
+
+    assertTrue(output.toString().contains("LOW STOCK"));
+}
+
+@Test
+void TC2_triggerBelowThreshold() {
+    Product p = new Product(1, "A", 1.0, 10);
+
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(output));
+
+    p.updateQuantity(-5); // quantity = 5
+
+    assertTrue(output.toString().contains("LOW STOCK"));
+}
+
+@Test
+void TC3_noAlertAboveThreshold() {
+    Product p = new Product(1, "A", 1.0, 5);
+
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(output));
+
+    p.updateQuantity(1); // quantity = 6
+
+    assertEquals("", output.toString());
+}
+
+@Test
+void TC4_alertAfterDecrease() {
+    Product p = new Product(1, "A", 1.0, 5);
+
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(output));
+
+    p.updateQuantity(-1); // quantity = 4
+
+    assertTrue(output.toString().contains("4"));
+}
+
+@Test
+void TC5_multipleAlerts() {
+    Product p = new Product(1, "A", 1.0, 5);
+
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(output));
+
+    p.updateQuantity(-1); // 4
+    p.updateQuantity(-1); // 3
+
+    String result = output.toString();
+
+    assertTrue(result.contains("4"));
+    assertTrue(result.contains("3"));
 }
 
 // Edge Cases
 
 @Test
-void EC1_largeIncrease() {
-    Product p = new Product(1, "A", 1.0, 10);
+void EC1_zeroQuantityAlert() {
+    Product p = new Product(1, "A", 1.0, 5);
 
-    p.updateQuantity(1_000_000);
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(output));
 
-    assertEquals(1_000_010, p.getQuantity());
+    p.updateQuantity(-5); // 0
+
+    assertTrue(output.toString().contains("0"));
 }
 
 @Test
-void EC2_largeDecreaseToZero() {
+void EC2_largeThreshold() {
     Product p = new Product(1, "A", 1.0, 1000);
 
-    p.updateQuantity(-1000);
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(output));
 
-    assertEquals(0, p.getQuantity());
+    p.updateQuantity(0);
+
+    assertTrue(output.toString().contains("LOW STOCK"));
 }
 
 @Test
-void EC3_sequentialOperations() {
+void EC3_exactBoundary() {
     Product p = new Product(1, "A", 1.0, 10);
 
-    for (int i = 0; i < 100; i++) {
-        p.updateQuantity(1);
-    }
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(output));
 
-    assertEquals(110, p.getQuantity());
+    p.updateQuantity(0); // exactly 10
+
+    assertTrue(output.toString().contains("LOW STOCK"));
 }
 
 // Error Handling
 
 @Test
-void EH1_negativeStockNotAllowed() {
+void EH1_noCrashOnRepeatedCalls() {
     Product p = new Product(1, "A", 1.0, 5);
 
-    assertThrows(IllegalArgumentException.class, () -> {
-        p.updateQuantity(-10);
-    });
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(output));
+
+    p.updateQuantity(-1);
+    p.updateQuantity(0);
+    p.updateQuantity(0);
+
+    assertNotNull(output.toString());
 }
 
 @Test
-void EH2_boundaryNegative() {
-    Product p = new Product(1, "A", 1.0, 5);
+void EH2_nullProductReference() {
+    Product p = null;
 
-    assertThrows(IllegalArgumentException.class, () -> {
-        p.updateQuantity(-6);
+    assertThrows(NullPointerException.class, () -> {
+        p.updateQuantity(1);
     });
 }
 
