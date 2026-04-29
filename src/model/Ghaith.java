@@ -36,4 +36,19 @@ public class Ghaith {
 
     return results;
     }
+
+    public boolean removeFromCart(int id) {
+    if (id <= 0) {
+        throw new IllegalArgumentException("Invalid ID");
+    }
+
+    for (int i = 0; i < cart.size(); i++) {
+        if (cart.get(i).getId() == id) {
+            cart.remove(i);
+            return true;
+        }
+    }
+
+    return false;
+    }
 }

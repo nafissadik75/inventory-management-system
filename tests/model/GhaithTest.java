@@ -7,6 +7,8 @@ import model.Product;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GhaithTest {
+
+    // Remove Product-feature TestSuite
     @Test
     void testRemoveExistingProduct() {
         Inventory inv = new Inventory();
