@@ -6,6 +6,8 @@ import model.Product;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 public class GhaithTest {
 
     // Remove Product-feature TestSuite
@@ -101,5 +103,103 @@ public class GhaithTest {
         Inventory inv = new Inventory();
 
         assertThrows(IllegalArgumentException.class, () -> inv.removeProduct(-1));
+    }
+
+
+
+
+
+    
+    // Searchbyname feature TestSuite
+        @Test
+    void testSearchFindsSingleMatch() {
+        Inventory inv = new Inventory();
+        inv.addProduct(new Product(1, "Apple", 1.0, 10));
+        inv.addProduct(new Product(2, "Banana", 1.0, 10));
+
+        List<Product> results = inv.searchByName("app");
+
+        assertEquals(1, results.size());
+    }
+
+    @Test
+    void testSearchFindsMultipleMatches() {
+        Inventory inv = new Inventory();
+        inv.addProduct(new Product(1, "Apple", 1.0, 10));
+        inv.addProduct(new Product(2, "Pineapple", 1.0, 10));
+        inv.addProduct(new Product(3, "Banana", 1.0, 10));
+
+        List<Product> results = inv.searchByName("apple");
+
+        assertEquals(2, results.size());
+    }
+
+    @Test
+    void testSearchIsCaseInsensitive() {
+        Inventory inv = new Inventory();
+        inv.addProduct(new Product(1, "Apple", 1.0, 10));
+
+        List<Product> results = inv.searchByName("APPLE");
+
+        assertEquals(1, results.size());
+    }
+
+    @Test
+    void testSearchNoMatches() {
+        Inventory inv = new Inventory();
+        inv.addProduct(new Product(1, "Apple", 1.0, 10));
+
+        List<Product> results = inv.searchByName("orange");
+
+        assertTrue(results.isEmpty());
+    }
+
+    @Test
+    void testSearchWithEmptyString() {
+        Inventory inv = new Inventory();
+        inv.addProduct(new Product(1, "Apple", 1.0, 10));
+
+        List<Product> results = inv.searchByName("");
+
+        assertTrue(results.isEmpty());
+    }
+
+    @Test
+    void testSearchWithNull() {
+        Inventory inv = new Inventory();
+        inv.addProduct(new Product(1, "Apple", 1.0, 10));
+
+        List<Product> results = inv.searchByName(null);
+
+        assertTrue(results.isEmpty());
+    }
+
+    @Test
+    void testSearchWithWhitespaceOnly() {
+        Inventory inv = new Inventory();
+        inv.addProduct(new Product(1, "Apple", 1.0, 10));
+
+        List<Product> results = inv.searchByName("   ");
+
+        assertTrue(results.isEmpty());
+    }
+
+    @Test
+    void testSearchPartialMatch() {
+        Inventory inv = new Inventory();
+        inv.addProduct(new Product(1, "Strawberry", 1.0, 10));
+
+        List<Product> results = inv.searchByName("berry");
+
+        assertEquals(1, results.size());
+    }
+
+    @Test
+    void testSearchEmptyInventory() {
+        Inventory inv = new Inventory();
+
+        List<Product> results = inv.searchByName("apple");
+
+        assertTrue(results.isEmpty());
     }
 }
