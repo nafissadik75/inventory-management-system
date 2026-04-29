@@ -32,5 +32,10 @@ public class Product {
         return String.format("[%d] %s | Price: %.2f | Qty %d", id, name, price, quantity);
     }
 
+    public void updateQuantity(int i) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateQuantity'");
+    }
+
 
 }

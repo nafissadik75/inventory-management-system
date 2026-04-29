@@ -164,4 +164,104 @@ public class RandTest {
             inv.listProducts();
         });
     }
+
+    // UpdateProductQuantity - TestSuite
+
+@Test
+void TC1_increaseQuantity() {
+    Product p = new Product(1, "A", 1.0, 10);
+
+    p.updateQuantity(5);
+
+    assertEquals(15, p.getQuantity());
+}
+
+@Test
+void TC2_decreaseQuantity() {
+    Product p = new Product(1, "A", 1.0, 10);
+
+    p.updateQuantity(-3);
+
+    assertEquals(7, p.getQuantity());
+}
+
+@Test
+void TC3_noChange() {
+    Product p = new Product(1, "A", 1.0, 10);
+
+    p.updateQuantity(0);
+
+    assertEquals(10, p.getQuantity());
+}
+
+@Test
+void TC4_multipleUpdates() {
+    Product p = new Product(1, "A", 1.0, 10);
+
+    p.updateQuantity(5);
+    p.updateQuantity(-2);
+
+    assertEquals(13, p.getQuantity());
+}
+
+@Test
+void TC5_exactZero() {
+    Product p = new Product(1, "A", 1.0, 5);
+
+    p.updateQuantity(-5);
+
+    assertEquals(0, p.getQuantity());
+}
+
+// Edge Cases
+
+@Test
+void EC1_largeIncrease() {
+    Product p = new Product(1, "A", 1.0, 10);
+
+    p.updateQuantity(1_000_000);
+
+    assertEquals(1_000_010, p.getQuantity());
+}
+
+@Test
+void EC2_largeDecreaseToZero() {
+    Product p = new Product(1, "A", 1.0, 1000);
+
+    p.updateQuantity(-1000);
+
+    assertEquals(0, p.getQuantity());
+}
+
+@Test
+void EC3_sequentialOperations() {
+    Product p = new Product(1, "A", 1.0, 10);
+
+    for (int i = 0; i < 100; i++) {
+        p.updateQuantity(1);
+    }
+
+    assertEquals(110, p.getQuantity());
+}
+
+// Error Handling
+
+@Test
+void EH1_negativeStockNotAllowed() {
+    Product p = new Product(1, "A", 1.0, 5);
+
+    assertThrows(IllegalArgumentException.class, () -> {
+        p.updateQuantity(-10);
+    });
+}
+
+@Test
+void EH2_boundaryNegative() {
+    Product p = new Product(1, "A", 1.0, 5);
+
+    assertThrows(IllegalArgumentException.class, () -> {
+        p.updateQuantity(-6);
+    });
+}
+
 }
