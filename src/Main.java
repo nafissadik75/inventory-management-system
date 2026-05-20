@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 import model.Inventory;
+import model.Nafis;
 import model.Product;
 import menu.MainMenu;
 import model.OrderHistory;
+import model.SaveLoadManager;
+import model.CheckoutManager;
 
 public class Main {
 
@@ -22,12 +25,17 @@ public class Main {
                 case 0:
                     break;
                 case 1:
-                    products.add(MainMenu.addProductMenu());
+                    products.add(Nafis.addProductMenu());
+                case 2:
+                    SaveLoadManager.saveProducts(products, "products.csv");
+                    break;
+                case 3:
+                    products = SaveLoadManager.loadProducts("products.csv");
+                    break;
                 case 5:
                     // show order history
                     // date, qty, name , price, 
                 case 4:
-                    System.out.println(products);
                     for (int i = 0; i < products.size(); i++) {
                         System.out.println(products.get(i));
                     }

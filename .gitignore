@@ -1,9 +1,9 @@
-# Compiled class file
+jkl# Compiled class file
 *.class
 lib/
 .classpath
 out/
-
+.vscode
 # Log file
 *.log
 
