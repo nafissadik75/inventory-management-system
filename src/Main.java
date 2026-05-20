@@ -4,6 +4,8 @@ import model.Nafis;
 import model.Product;
 import menu.MainMenu;
 import model.OrderHistory;
+import model.SaveLoadManager;
+import model.CheckoutManager;
 
 public class Main {
 
@@ -24,6 +26,12 @@ public class Main {
                     break;
                 case 1:
                     products.add(Nafis.addProductMenu());
+                case 2:
+                    SaveLoadManager.saveProducts(products, "products.csv");
+                    break;
+                case 3:
+                    products = SaveLoadManager.loadProducts("products.csv");
+                    break;
                 case 5:
                     // show order history
                     // date, qty, name , price, 
